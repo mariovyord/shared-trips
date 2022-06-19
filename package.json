@@ -1,0 +1,24 @@
+{
+	"name": "exam_sceleton",
+	"version": "1.0.0",
+	"description": "SoftUni Exap",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon index.js"
+	},
+	"keywords": [],
+	"author": "Mario Yordanov",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt": "^5.0.1",
+		"cookie-parser": "^1.4.6",
+		"express": "^4.18.1",
+		"express-handlebars": "^6.0.6",
+		"express-session": "^1.17.3",
+		"mongoose": "^6.3.8"
+	},
+	"devDependencies": {
+		"eslint": "^8.17.0",
+		"nodemon": "^2.0.16"
+	}
+}
