@@ -1,37 +1,52 @@
 const { Schema, model, Types: { ObjectId } } = require('mongoose');
 
 const postSchema = new Schema({
-	title: {
+	start: {
 		type: String,
 		required: true,
 	},
-	keyword: {
+	end: {
 		type: String,
 		required: true,
 	},
-	location: {
+	date: {
+		type: String,
+		required: true,
+	},
+	time: {
 		type: String,
 		required: true,
 	},
 	image: {
 		type: String,
 		required: true,
-		validate: {
-			validator: function (v) {
-				return v.startsWith('http://') || v.startsWith('https://');
-			},
-			message: 'Image URL should be a valid link'
-		},
+	},
+	brand: {
+		type: String,
+		required: true,
+	},
+	seats: {
+		type: Number,
+		required: true,
+	},
+	price: {
+		type: Number,
+		required: true,
 	},
 	description: {
 		type: String,
 		required: true,
-		minlength: 10,
 	},
-	author: {
+	creator: {
 		type: ObjectId,
 		ref: 'User',
 	},
+	buddies: {
+		type: [ObjectId],
+		ref: 'User',
+		default: [],
+	},
+
 });
 
 const Post = model('Post', postSchema);

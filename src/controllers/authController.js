@@ -32,10 +32,10 @@ router.post('/register', isGuest(), async (req, res) => {
 		if (req.body.password.trim() == '') {
 			throw new Error(`Password can't be empty`)
 		}
-		if (req.body.password != req.body['repeat_password']) {
+		if (req.body.password != req.body['repass']) {
 			throw new Error('Passwords should match')
 		}
-
+		console.log(req.body)
 		await register(req.body, req.session);
 		res.redirect('/');
 	} catch (err) {

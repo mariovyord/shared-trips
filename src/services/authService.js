@@ -13,9 +13,9 @@ exports.login = async (userData, session) => {
 	if (isValid) {
 		session.user = {
 			_id: currentUser._id,
-			email: currentUser.email,
-			firstName: currentUser.first_name,
-			lastName: currentUser.last_name,
+			email: currentUser.email.trim(),
+			password: currentUser.password.trim(),
+			gender: currentUser.gender.trim(),
 		}
 		console.log('Sign in successful');
 	} else {
@@ -24,19 +24,18 @@ exports.login = async (userData, session) => {
 }
 
 exports.register = async (userData, session) => {
-	const user = new User({
+	const currentUser = new User({
 		email: userData.email.trim(),
-		first_name: userData.first_name.trim(),
-		last_name: userData.last_name.trim(),
 		password: userData.password.trim(),
+		gender: userData.gender.trim(),
 	});
-	await user.save();
+	await currentUser.save();
 
 	session.user = {
-		_id: user._id,
-		email: user.email,
-		firstName: user.first_name,
-		lastName: user.last_name,
+		_id: currentUser._id,
+		email: currentUser.email.trim(),
+		password: currentUser.password.trim(),
+		gender: currentUser.gender.trim(),
 	}
 	console.log('Sign up successful');
 }
