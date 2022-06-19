@@ -18,9 +18,9 @@
 				</div>
 				<label>Gender</label>
 				<div class="gender">
-					<input type="radio" id="female" name="gender" value="female">
+					<input type="radio" id="female" name="gender" value="female" {{#unless isMale}} checked {{/unless}}>
 					<label for="female">Female</label>
-					<input type="radio" id="male" name="gender" value="male" checked>
+					<input type="radio" id="male" name="gender" value="male" {{#if isMale}} checked {{/if}}>
 					<label for="male">Male</label>
 				</div>
 				<div class="form-group">

@@ -41,7 +41,8 @@ router.post('/register', isGuest(), async (req, res) => {
 	} catch (err) {
 		const errors = mapErrors(err);
 		const values = req.body;
-		res.render('register', { errors, title: 'Register', values });
+		const isMale = req.body.gender == 'male';
+		res.render('register', { errors, title: 'Register', values, isMale });
 	}
 })
 
