@@ -6,7 +6,7 @@ const session = require('express-session');
 const port = 3000;
 
 // TODO ADD DB TO CONNECTION STRING
-const connectionString = 'mongodb://localhost:27017/';
+const connectionString = 'mongodb://localhost:27017/shared-trips';
 
 
 (async function start() {
