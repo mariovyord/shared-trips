@@ -40,7 +40,7 @@ router.post('/create', isUser(), async (req, res) => {
 		res.redirect('/posts')
 	} catch (err) {
 		const errors = mapErrors(err);
-		res.render('create', { errors, values: req.body })
+		res.render('trip-create', { errors, values: req.body })
 	}
 });
 
