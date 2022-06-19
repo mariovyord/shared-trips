@@ -15,6 +15,7 @@ router.use(authMiddleware());
 router.get('/', homeController);
 
 router.use('/auth', authController);
+
 router.use('/posts', postsConroller);
 
 router.all('*', (req, res) => {

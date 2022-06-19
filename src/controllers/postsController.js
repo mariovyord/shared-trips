@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { mapErrors } = require('../utils/mapErrors');
 const { isUser } = require('../middleware/guardsMiddleware');
-const { createPost, getAllPosts, getPostById, editPostById, deletePostById, joinTrip } = require('../services/postsService');
+const { createPost, getAllPosts, getPostById, editPostById, deletePostById, joinTrip, getPostsByUserId } = require('../services/postsService');
 
 // ALL POSTS PAGE
 router.get('/', async (req, res) => {
@@ -18,8 +18,10 @@ router.get('/', async (req, res) => {
 router.get('/user/:id', isUser(), async (req, res) => {
 	console.log('here')
 	try {
-		// const posts = await getPostsByUserId(req.params.id);
-		res.render('profile', { title: 'Profile' })
+		const posts = await getPostsByUserId(req.params.id);
+		const isMale = req.session.user.gender == 'male';
+		const numTrips = posts.length;
+		res.render('profile', { title: 'Profile', posts, isMale, numTrips })
 	} catch (err) {
 		const errors = mapErrors(err);
 		console.log('errors', err)
