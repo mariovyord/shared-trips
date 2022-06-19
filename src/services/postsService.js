@@ -55,3 +55,12 @@ exports.deletePostById = async (id) => {
 	return Post.findByIdAndDelete(id);
 }
 
+exports.joinTrip = async (id, userId) => {
+	const post = await Post.findById(id);
+	if (post.buddies.includes(userId)) {
+		throw new Error('User has already joined');
+	}
+	post.seats = post.seats - 1;
+	post.buddies.push(userId);
+	post.save();
+}

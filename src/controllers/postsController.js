@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { mapErrors } = require('../utils/mapErrors');
 const { isUser } = require('../middleware/guardsMiddleware');
-const { createPost, getAllPosts, getPostById, editPostById, deletePostById, upvote, downvote, getPostsByUserId } = require('../services/postsService');
+const { createPost, getAllPosts, getPostById, editPostById, deletePostById, joinTrip } = require('../services/postsService');
 
 // ALL POSTS PAGE
 router.get('/', async (req, res) => {
@@ -112,9 +112,9 @@ router.get('/details/:id', async (req, res) => {
 });
 
 // VOTE 
-router.get('/vote-up/:id', isUser(), async (req, res) => {
+router.get('/join/:id', isUser(), async (req, res) => {
 	try {
-		await upvote(req.params.id, req.session.user._id);
+		await joinTrip(req.params.id, req.session.user._id);
 		res.redirect('/posts/details/' + req.params.id);
 	} catch (err) {
 		const errors = mapErrors(err);
@@ -122,15 +122,6 @@ router.get('/vote-up/:id', isUser(), async (req, res) => {
 	}
 });
 
-router.get('/vote-down/:id', isUser(), async (req, res) => {
-	try {
-		await downvote(req.params.id, req.session.user._id);
-		res.redirect('/posts/details/' + req.params.id);
-	} catch (err) {
-		const errors = mapErrors(err);
-		res.render('404', { errors })
-	}
-});
 
 
 
