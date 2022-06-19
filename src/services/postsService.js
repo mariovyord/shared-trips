@@ -2,14 +2,18 @@
 const Post = require('../models/Post');
 
 exports.createPost = async (data, authorId) => {
+	console.log(data)
 	const post = new Post({
-		title: data.title.trim(),
-		keyword: data.keyword.trim(),
-		location: data.location.trim(),
-		creation_date: data.creation_date.trim(),
+		start: data.start.trim(),
+		end: data.end.trim(),
+		date: data.date.trim(),
+		time: data.time.trim(),
 		image: data.image.trim(),
+		brand: data.brand.trim(),
+		seats: Number(data.seats.trim()),
+		price: Number(data.price.trim()),
 		description: data.description.trim(),
-		author: authorId,
+		creator: authorId,
 	});
 
 	return post.save();
@@ -20,17 +24,17 @@ exports.getAllPosts = async () => {
 }
 
 exports.getPostById = async (id) => {
-	return Post.findById(id).populate('author').populate('votes').lean();
+	return Post.findById(id).populate('creator').lean();
 }
 
 exports.getPostsByUserId = async (userId) => {
-	return Post.find({ author: userId }).populate('author').lean();
+	return Post.find({ creator: userId }).populate('creator').lean();
 }
 
 exports.editPostById = async (id, data, userId) => {
 	const post = await Post.findById(id);
 
-	if (post.author != userId) {
+	if (post?.creator != userId) {
 		throw new Error('Only owners can edit post')
 	}
 
@@ -48,22 +52,3 @@ exports.deletePostById = async (id) => {
 	return Post.findByIdAndDelete(id);
 }
 
-exports.upvote = async (id, userId) => {
-	const post = await Post.findById(id);
-	if (post.votes.includes(userId)) {
-		throw new Error('User has already voted');
-	}
-	post.rating = post.rating + 1;
-	post.votes.push(userId);
-	post.save();
-}
-
-exports.downvote = async (id, userId) => {
-	const post = await Post.findById(id);
-	if (post.votes.includes(userId)) {
-		throw new Error('User has already voted');
-	}
-	post.rating = post.rating - 1;
-	post.votes.push(userId);
-	post.save();
-}

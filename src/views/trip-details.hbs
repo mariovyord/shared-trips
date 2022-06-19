@@ -3,11 +3,11 @@
 		<div class="destination">
 			<div>
 				<span class="icon"><i class="fas fa-map-marked-alt"></i></span>
-				<h5> from <span>Plovdiv</span> to <span>Burgas</span> </h5>
+				<h5> from <span>{{post.start}}</span> to <span>{{post.end}}</span> </h5>
 			</div>
 			<div>
 				<span class="icon"><i class="fas fa-calendar-alt"></i></span>
-				<h5> <span>2021-07-07</span> at <span>10:40</span> </h5>
+				<h5> <span>{{post.date}}</span> at <span>{{post.time}}</span> </h5>
 			</div>
 		</div>
 		<p class="line"></p>
@@ -24,18 +24,15 @@
 			<h5>Driver: <span>mihail_valkov@mail.bg</span> </h5>
 		</div>
 		<p class="line"></p>
-		<h5 class="brand">Car Brand: <span class="lead">Mercedes</span></h5>
+		<h5 class="brand">Car Brand: <span class="lead">{{post.brand}}</span></h5>
 		<div class="trip-info">
 			<div>
-				<img class="img-fluid rounded"
-					src="https://www.nastarta.com/wp-content/uploads/2018/04/Mercedes-Benz-A-Class-2019-1280-3d.jpg"
-					alt="car-image">
+				<img class="img-fluid rounded" src="{{post.image}}" alt="car-image">
 			</div>
 			<div class="trip-desc">
 				<h5>Information about the trip</h5>
-				<textarea class="lead"
-					disabled>Wishing you a safe journey and a relaxing vacation when you arrive!</textarea>
-				<h5>Price: <span class="lead">40</span> BGN</h5>
+				<textarea class="lead" disabled>{{post.description}}</textarea>
+				<h5>Price: <span class="lead">{{post.price}}</span> BGN</h5>
 
 				<!-- if there are no logged in user do not show div with class actions  -->
 				<div class="actions">

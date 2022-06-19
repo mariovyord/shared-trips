@@ -1,11 +1,17 @@
-<div class="flip flip-vertical">
-	<div class="front">
-		<img src="{{image}}" alt="image_nature_1">
-		<h1 class="text-shadow">Keyword: {{keyword}}</h1>
-	</div>
-	<div class="back">
-		<h2>{{title}}</h2>
-		<p>Description: {{description}}</p>
-		<a href="/posts/details/{{_id}}" class="details">Details</a>
+<div class="col-lg-4 col-md-6 mb-4">
+	<div class="card h-100">
+		<img class="card-img-top" src="{{image}}" alt="">
+		<div class="card-body">
+			<h5 class="card-title"><i class="fas fa-route"></i> <span>{{start}}</span> -
+				<span>{{end}}</span>
+			</h5>
+			<h5 class="mt-4 card-info"><i class="far fa-calendar-alt"></i> Date: <span>{{date}}</span>
+			</h5>
+			<h5 class="mt-4 card-info"><i class="far fa-clock"></i> Time: <span>{{time}}</span></h5>
+			<h5 class="mt-4"><i class="fas fa-hand-holding-usd"></i> Price: <span>{{price}}</span> BGN</h5>
+		</div>
+		<div class="card-footer">
+			<a href="/posts/details/{{_id}}" class="btn btn-primary">Details</a>
+		</div>
 	</div>
 </div>

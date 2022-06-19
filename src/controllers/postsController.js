@@ -7,19 +7,19 @@ const { createPost, getAllPosts, getPostById, editPostById, deletePostById, upvo
 router.get('/', async (req, res) => {
 	try {
 		const posts = await getAllPosts();
-		res.render('all-posts', { posts, title: 'All Posts' });
+		res.render('shared-trips', { posts, title: 'Shared Trips' });
 	} catch (err) {
 		const errors = mapErrors(err);
 		res.render('404', { errors })
 	}
 })
 
-// USER PROFILE
+// TODO USER PROFILE
 router.get('/user/:id', isUser(), async (req, res) => {
 	console.log('here')
 	try {
-		const posts = await getPostsByUserId(req.params.id);
-		res.render('my-posts', { title: 'My posts', posts })
+		// const posts = await getPostsByUserId(req.params.id);
+		res.render('profile', { title: 'Profile' })
 	} catch (err) {
 		const errors = mapErrors(err);
 		console.log('errors', err)
@@ -29,7 +29,7 @@ router.get('/user/:id', isUser(), async (req, res) => {
 
 // CREATE NEW POST
 router.get('/create', isUser(), (req, res) => {
-	res.render('create', { title: 'Create Post' })
+	res.render('trip-create', { title: 'Create Trip' })
 });
 
 router.post('/create', isUser(), async (req, res) => {
@@ -91,16 +91,11 @@ router.get('/details/:id', async (req, res) => {
 		const post = await getPostById(req.params.id);
 		const userId = req.session?.user?._id;
 
-		if (req.session?.user?._id == post.author._id) {
+		if (userId == post.creator._id) {
 			res.locals.isOwner = true;
 		}
 
-		const votesToString = post.votes.map(x => x._id.toString())
-		if (votesToString.includes(userId)) {
-			res.locals.hasVoted = true;
-		}
-		post.votes = post.votes.map(x => `${x.first_name} ${x.last_name}`);
-		res.render('details', { title: post.title, post })
+		res.render('trip-details', { title: 'Details', post })
 	} catch (err) {
 		const errors = mapErrors(err);
 		res.render('404', { errors })
