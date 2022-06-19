@@ -24,7 +24,7 @@ exports.getAllPosts = async () => {
 }
 
 exports.getPostById = async (id) => {
-	return Post.findById(id).populate('creator').lean();
+	return Post.findById(id).populate('creator').populate('buddies').lean();
 }
 
 exports.getPostsByUserId = async (userId) => {
@@ -38,11 +38,14 @@ exports.editPostById = async (id, data, userId) => {
 		throw new Error('Only owners can edit post')
 	}
 
-	post.title = data.title.trim();
-	post.keyword = data.keyword.trim();
-	post.location = data.location.trim();
-	post.creation_date = data.creation_date.trim();
+	post.start = data.start.trim();
+	post.end = data.end.trim();
+	post.date = data.date.trim();
+	post.time = data.time.trim();
 	post.image = data.image.trim();
+	post.brand = data.brand.trim();
+	post.seats = Number(data.seats.trim());
+	post.price = Number(data.price.trim());
 	post.description = data.description.trim();
 
 	return post.save();

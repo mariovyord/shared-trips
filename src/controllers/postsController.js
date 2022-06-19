@@ -47,11 +47,11 @@ router.get('/edit/:id', isUser(), async (req, res) => {
 	try {
 		const post = await getPostById(req.params.id);
 
-		if (req.session.user._id != post.author._id) {
+		if (req.session.user._id != post.creator._id) {
 			throw new Error('Only owners can edit post');
 		}
 
-		res.render('edit', { post, title: `Edit: ${post.title}` })
+		res.render('trip-edit', { post, title: `Edit` })
 	} catch (err) {
 		const errors = mapErrors(err);
 		res.render('404', { errors })
@@ -73,7 +73,7 @@ router.get('/delete/:id', isUser(), async (req, res) => {
 	try {
 		const post = await getPostById(req.params.id);
 
-		if (req.session.user._id != post.author._id) {
+		if (req.session.user._id != post.creator._id) {
 			throw new Error('Only owners can delete posts')
 		}
 
@@ -95,6 +95,15 @@ router.get('/details/:id', async (req, res) => {
 			res.locals.isOwner = true;
 		}
 
+		if (post.buddies.some(x => x._id == userId)) {
+			post.hasJoined = true;
+		}
+
+		if (post.seats > 0) {
+			post.hasSeats = true;
+		}
+
+		post.buddies = post?.buddies.map(x => x.email).join(', ');
 		res.render('trip-details', { title: 'Details', post })
 	} catch (err) {
 		const errors = mapErrors(err);
