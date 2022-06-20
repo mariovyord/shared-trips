@@ -2,6 +2,8 @@ const router = require('express').Router();
 const { mapErrors } = require('../utils/mapErrors');
 const { isUser } = require('../middleware/guardsMiddleware');
 const { createPost, getAllPosts, getPostById, editPostById, deletePostById, joinTrip, getPostsByUserId } = require('../services/postsService');
+const { body, validationResult } = require('express-validator');
+
 
 // ALL POSTS PAGE
 router.get('/', async (req, res) => {
@@ -34,15 +36,33 @@ router.get('/create', isUser(), (req, res) => {
 	res.render('trip-create', { title: 'Create Trip' })
 });
 
-router.post('/create', isUser(), async (req, res) => {
-	try {
-		await createPost(req.body, req.session.user._id);
-		res.redirect('/posts')
-	} catch (err) {
-		const errors = mapErrors(err);
-		res.render('trip-create', { errors, values: req.body })
-	}
-});
+router.post('/create',
+	isUser(),
+	body('start').isAlphanumeric().trim().escape()
+		.withMessage('Must be a valid word'),
+	body('end').isAlphanumeric().trim().escape()
+		.withMessage('Must be a valid word'),
+	body('date').isDate()
+		.withMessage('Pick a valid date'),
+	body('seats').toInt().isInt()
+		.withMessage('Seats should be a valid number'),
+	body('price').toInt(),
+	async (req, res) => {
+		try {
+			const errors = validationResult(req);
+
+			if (!errors.isEmpty()) {
+				const err = errors.errors.map(x => ({ message: x.msg }))
+				throw err;
+			}
+
+			await createPost(req.body, req.session.user._id);
+			res.redirect('/posts')
+		} catch (err) {
+			const errors = mapErrors(err);
+			res.render('trip-create', { errors, values: req.body })
+		}
+	});
 
 // EDIT POST IF OWNER
 router.get('/edit/:id', isUser(), async (req, res) => {
